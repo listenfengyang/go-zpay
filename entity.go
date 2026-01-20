@@ -44,9 +44,10 @@ type ZPayDepositReq struct {
 }
 
 type ZPayDepositRsp struct {
-	Code int         `json:"code" mapstructure:"code"`
-	Data DepositData `json:"data" mapstructure:"data"`
-	Msg  string      `json:"msg" mapstructure:"msg"`
+	Status      int32  `json:"status" mapstructure:"status"` //请求状态：200=请求成功 400=请求失败
+	Message     string `json:"message" mapstructure:"message"`
+	RedirectUrl string `json:"redirect_url" mapstructure:"redirect_url"` //重定向URL
+	QrString    string `json:"qr_string" mapstructure:"qr_string"`       //二维码字符串
 }
 
 type DepositData struct {
