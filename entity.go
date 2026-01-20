@@ -26,15 +26,14 @@ type MerchantInfo struct {
 // VND(VALUE:ONLINE_BANKING/OFFLINE_BANKING/BANK_QR),
 // BRL,BDT,AUD(VALUE:LEAVE BLANK)
 type ZPayDepositReq struct {
-	Currency    string `json:"currency" mapstructure:"currency"`       // 币种
-	PaymentID   string `json:"paymentID" mapstructure:"paymentID"`     // 唯一交易ID
-	ResponseURL string `json:"responseURL" mapstructure:"responseURL"` // 回调地址
-	Amount      string `json:"amount" mapstructure:"amount"`           // 金额
-	Remark      string `json:"remark" mapstructure:"remark"`           // 备注
-	// signature   string `json:"signature" mapstructure:"signature"`     // 签名
-
+	Currency  string `json:"currency" mapstructure:"currency"`   // 币种
+	PaymentID string `json:"paymentID" mapstructure:"paymentID"` // 唯一交易ID
+	Amount    string `json:"amount" mapstructure:"amount"`       // 金额
+	Remark    string `json:"remark" mapstructure:"remark"`       // 备注
+	BankType  string `json:"bankType" mapstructure:"bankType"`   // 银行类型
 	// 以下非必填
-	BankType string `json:"bankType" mapstructure:"bankType"` // 银行类型
+	// ResponseURL string `json:"responseURL" mapstructure:"responseURL"` // 回调地址
+	// Signature   string `json:"signature" mapstructure:"signature"`     // 签名
 	// 以下参数只在THB_KYC模式加
 	// CustomerUsername          string `json:"customerUsername" mapstructure:"customerUsername"`                   // 客户用户名
 	// CustomerEmail             string `json:"customerEmail" mapstructure:"customerEmail"`                         // 客户邮箱
@@ -74,13 +73,10 @@ type ZPayDepositCallbackReq struct {
 }
 
 // zpay出金
-type WithdrawData struct {
-}
 type ZPayWithdrawReq struct {
 	Currency      string `json:"currency" mapstructure:"currency"`           // 币种
 	BankName      string `json:"bankName" mapstructure:"bankName"`           //银行名称
 	IfscCode      string `json:"ifscCode" mapstructure:"ifscCode"`           //IFSC码
-	TaxNumber     string `json:"taxNumber" mapstructure:"taxNumber"`         //税号
 	AccountNumber string `json:"accountNumber" mapstructure:"accountNumber"` //银行账号
 	AccountName   string `json:"accountName" mapstructure:"accountName"`     //银行账号名称
 	Amount        string `json:"amount" mapstructure:"amount"`               //金额

@@ -27,6 +27,5 @@ func GenWithdrawRequestDemo() ZPayWithdrawReq {
 		IfscCode:      "IBK",
 		AccountNumber: "1234567890",
 		AccountName:   "jane",
-		TaxNumber:     "1234567890",
 	}
 }

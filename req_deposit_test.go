@@ -27,7 +27,7 @@ func TestDeposit(t *testing.T) {
 func GenDepositRequestDemo() ZPayDepositReq {
 	return ZPayDepositReq{
 		Currency:  "VND",
-		PaymentID: "22515161368",
+		PaymentID: "22515161369",
 		Amount:    "188000.00",
 		BankType:  "",
 	}
