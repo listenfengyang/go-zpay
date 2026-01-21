@@ -89,8 +89,8 @@ type ZPayWithdrawReq struct {
 	Signature     string `json:"signature" mapstructure:"signature"`         //签名
 }
 type ZPayWithdrawRsp struct {
-	Status int    `json:"status" mapstructure:"status"` //200=成功，400=失败...
-	Msg    string `json:"msg" mapstructure:"msg"`
+	Status  int    `json:"status" mapstructure:"status"` //200=成功，400=失败...
+	Message string `json:"message" mapstructure:"message"`
 }
 
 // 出金回调

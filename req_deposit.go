@@ -27,7 +27,7 @@ func (cli *Client) Deposit(req ZPayDepositReq) (*ZPayDepositRsp, error) {
 	// Generate signature
 	signStr, _ := utils.Sign(params)
 	params["signature"] = signStr
-	fmt.Println(params)
+	// fmt.Println(params)
 	var result ZPayDepositRsp
 
 	resp2, err := cli.ryClient.SetTLSClientConfig(&tls.Config{InsecureSkipVerify: true}).

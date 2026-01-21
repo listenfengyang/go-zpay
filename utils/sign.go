@@ -28,15 +28,13 @@ func Sign(params map[string]string) (string, error) {
 	signStr := sb.String()
 	signStr = strings.Trim(signStr, "&")
 
-	fmt.Printf("[rawString]%s\n", signStr)
+	// fmt.Printf("[rawString]%s\n", signStr)
 
 	// 2. Generate MD5
 	hash := sha256.Sum256([]byte(signStr))
 	signResult := hex.EncodeToString(hash[:])
 
-	//fmt.Printf("验签str: %s\n结果: %s\n", signStr, signResult)
-
-	fmt.Printf("[rawUpString]%s\n", strings.ToUpper(signResult))
+	// fmt.Printf("[rawUpString]%s\n", strings.ToUpper(signResult))
 
 	return strings.ToUpper(signResult), nil
 }
@@ -82,12 +80,11 @@ func VerifyCallback(params map[string]string) bool {
 	signStr := sb.String()
 	signStr = strings.Trim(signStr, "&")
 
-	fmt.Printf("[rawString]%s\n", signStr)
+	// fmt.Printf("[rawString]%s\n", signStr)
 
 	hash := sha256.Sum256([]byte(signStr))
-
-	fmt.Printf("signature: %s\n", signature)
-	fmt.Printf("sha256 sign: %s\n", strings.ToUpper(hex.EncodeToString(hash[:])))
+	// fmt.Printf("signature: %s\n", signature)
+	// fmt.Printf("sha256 sign: %s\n", strings.ToUpper(hex.EncodeToString(hash[:])))
 
 	return signature == strings.ToUpper(hex.EncodeToString(hash[:]))
 }
@@ -111,15 +108,13 @@ func SignWithdraw(params map[string]string) (string, error) {
 	signStr := sb.String()
 	signStr = strings.Trim(signStr, "&")
 
-	fmt.Printf("[rawString]%s\n", signStr)
+	// fmt.Printf("[rawString]%s\n", signStr)
 
 	// 2. Generate MD5
 	hash := sha256.Sum256([]byte(signStr))
 	signResult := hex.EncodeToString(hash[:])
 
-	//fmt.Printf("验签str: %s\n结果: %s\n", signStr, signResult)
-
-	fmt.Printf("[rawUpString]%s\n", strings.ToUpper(signResult))
+	// fmt.Printf("[rawUpString]%s\n", strings.ToUpper(signResult))
 
 	return strings.ToUpper(signResult), nil
 }

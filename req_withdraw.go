@@ -26,7 +26,7 @@ func (cli *Client) WithdrawReq(req ZPayWithdrawReq) (*ZPayWithdrawRsp, error) {
 	// Generate signature
 	signStr, _ := utils.SignWithdraw(params)
 	params["signature"] = signStr
-	fmt.Println(params)
+	// fmt.Println(params)
 
 	var result ZPayWithdrawRsp
 	resp2, err := cli.ryClient.SetTLSClientConfig(&tls.Config{InsecureSkipVerify: true}).
