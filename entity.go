@@ -34,13 +34,14 @@ type ZPayDepositReq struct {
 	// 以下非必填
 	// ResponseURL string `json:"responseURL" mapstructure:"responseURL"` // 回调地址
 	// Signature   string `json:"signature" mapstructure:"signature"`     // 签名
+	// 改版：以下三个参数在THB&VND模式下必填
+	CustomerBankName          string `json:"customerBankName" mapstructure:"customerBankName"`                   // 客户银行名称
+	CustomerBankHolderName    string `json:"customerBankHolderName" mapstructure:"customerBankHolderName"`       // 客户银行账号名称
+	CustomerBankAccountNumber string `json:"customerBankAccountNumber" mapstructure:"customerBankAccountNumber"` // 客户银行账号
 	// 以下参数只在THB_KYC模式加
 	// CustomerUsername          string `json:"customerUsername" mapstructure:"customerUsername"`                   // 客户用户名
 	// CustomerEmail             string `json:"customerEmail" mapstructure:"customerEmail"`                         // 客户邮箱
 	// CustomerPhone             string `json:"customerPhone" mapstructure:"customerPhone"`                         // 客户手机号
-	// CustomerBankName          string `json:"customerBankName" mapstructure:"customerBankName"`                   // 客户银行名称
-	// CustomerBankHolderName    string `json:"customerBankHolderName" mapstructure:"customerBankHolderName"`       // 客户银行账号名称
-	// CustomerBankAccountNumber string `json:"customerBankAccountNumber" mapstructure:"customerBankAccountNumber"` // 客户银行账号
 }
 
 type ZPayDepositRsp struct {
