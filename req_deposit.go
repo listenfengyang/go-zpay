@@ -33,12 +33,10 @@ func (cli *Client) Deposit(req ZPayDepositReq) (*ZPayDepositRsp, error) {
 	resp2, err := cli.ryClient.SetTLSClientConfig(&tls.Config{InsecureSkipVerify: true}).
 		SetCloseConnection(true).
 		R().
-		SetFormData(params).
 		SetBody(params).
 		SetHeaders(getHeaders()).
 		SetDebug(cli.debugMode).
 		SetResult(&result).
-		SetError(&result).
 		Post(rawURL)
 
 	restLog, _ := jsoniter.ConfigCompatibleWithStandardLibrary.Marshal(utils.GetRestyLog(resp2))
@@ -52,10 +50,14 @@ func (cli *Client) Deposit(req ZPayDepositReq) (*ZPayDepositRsp, error) {
 		return nil, fmt.Errorf("status code: %d, body:%s", resp2.StatusCode(), resp2.Body())
 	}
 
-	// 服务端始终返回 HTTP 200，通过业务状态码判断成功与否
-	// SetError 绑定了同一个 result 指针，resp2.Error() 永远非 nil，不能用于错误判断
+	// 服务端 Content-Type 可能为 text/html，Resty 不会自动反序列化，手动解析 body 兜底
+	if result.Status == 0 {
+		_ = jsoniter.ConfigCompatibleWithStandardLibrary.Unmarshal(resp2.Body(), &result)
+	}
+	cli.logger.Infof("PSPResty#zpay#deposit result: %+v", result)
+
 	if result.Status != 200 {
-		return nil, fmt.Errorf("err:&%+v, body:%s", result, resp2.Body())
+		return nil, fmt.Errorf("business error status:%d message:%s body:%s", result.Status, result.Message, resp2.Body())
 	}
 
 	return &result, nil

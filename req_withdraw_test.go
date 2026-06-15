@@ -12,10 +12,9 @@ func TestWithdraw(t *testing.T) {
 	//发请求
 	resp, err := cli.WithdrawReq(GenWithdrawRequestDemo())
 	if err != nil {
-		cli.logger.Errorf("err:%s\n", err.Error())
-		return
+		cli.logger.Errorf("withdraw err:%s\n", err.Error())
 	}
-	cli.logger.Infof("resp:%+v\n", resp)
+	cli.logger.Infof("withdraw resp:%+v\n", resp)
 }
 
 // MYR
@@ -28,15 +27,15 @@ func GenWithdrawRequestDemo() ZPayWithdrawReq {
 	// THB时additionalParams必填
 	return ZPayWithdrawReq{
 		Currency:      "MYR",
-		MerchantRefNo: "2026_myyr_wd_01",
+		MerchantRefNo: "2026_myyr_wd_02",
 		Amount:        "1000.00",
 		BankName:      "ABBANK",
 		IfscCode:      "IBK",
 		AccountNumber: "1234567890",
 		AccountName:   "zf",
-		AdditionalParams: AdditionalParamsObj{
-			CustomerUserId:   "484799",
-			CustomerUsername: "user_123",
-		},
+		// AdditionalParams: AdditionalParamsObj{
+		// 	CustomerUserId:   "484799",
+		// 	CustomerUsername: "user_123",
+		// },
 	}
 }
