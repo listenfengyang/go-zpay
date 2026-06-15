@@ -37,6 +37,7 @@ func (cli *Client) Deposit(req ZPayDepositReq) (*ZPayDepositRsp, error) {
 		SetHeaders(getHeaders()).
 		SetDebug(cli.debugMode).
 		SetResult(&result).
+		SetError(&result).
 		Post(rawURL)
 
 	restLog, _ := jsoniter.ConfigCompatibleWithStandardLibrary.Marshal(utils.GetRestyLog(resp2))
@@ -55,10 +56,6 @@ func (cli *Client) Deposit(req ZPayDepositReq) (*ZPayDepositRsp, error) {
 		_ = jsoniter.ConfigCompatibleWithStandardLibrary.Unmarshal(resp2.Body(), &result)
 	}
 	cli.logger.Infof("PSPResty#zpay#deposit result: %+v", result)
-
-	if result.Status != 200 {
-		return nil, fmt.Errorf("business error status:%d message:%s body:%s", result.Status, result.Message, resp2.Body())
-	}
 
 	return &result, nil
 }

@@ -63,9 +63,5 @@ func (cli *Client) WithdrawReq(req ZPayWithdrawReq) (*ZPayWithdrawRsp, error) {
 	}
 	cli.logger.Infof("PSPResty#zpay#withdraw result: %+v", result)
 
-	if result.Status != 200 {
-		return nil, fmt.Errorf("business error status:%d message:%s body:%s", result.Status, result.Message, resp2.Body())
-	}
-
 	return &result, nil
 }
