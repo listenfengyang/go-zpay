@@ -49,13 +49,13 @@ func (cli *Client) Deposit(req ZPayDepositReq) (*ZPayDepositRsp, error) {
 	}
 
 	if resp2.StatusCode() != 200 {
-		//反序列化错误会在此捕捉
-		return nil, fmt.Errorf("status code: %d", resp2.StatusCode())
+		return nil, fmt.Errorf("status code: %d, body:%s", resp2.StatusCode(), resp2.Body())
 	}
 
-	if resp2.Error() != nil {
-		//反序列化错误会在此捕捉
-		return nil, fmt.Errorf("%v, body:%s", resp2.Error(), resp2.Body())
+	// 服务端始终返回 HTTP 200，通过业务状态码判断成功与否
+	// SetError 绑定了同一个 result 指针，resp2.Error() 永远非 nil，不能用于错误判断
+	if result.Status != 200 {
+		return nil, fmt.Errorf("err:&%+v, body:%s", result, resp2.Body())
 	}
 
 	return &result, nil
