@@ -24,14 +24,38 @@ func TestDeposit(t *testing.T) {
 	cli.logger.Infof("resp:%+v\n", resp)
 }
 
+// MYR
+// bankType=ONLINE_BANKING  （在线银行）
+// INR
+// bankType=UPI  (二维码)
+// IDR_NATIVE
+// bankType=QRIS  (二维码)
+// VND
+// bankType=BANK_QR  （越南银行QR码）
 func GenDepositRequestDemo() ZPayDepositReq {
+	currency := "IDR_NATIVE"
+
+	bankType := ""
+	if currency == "VND" {
+		bankType = "ONANK_QR"
+	} else if currency == "MYR" {
+		bankType = "ONLINE_BANKING"
+	} else if currency == "INR" {
+		bankType = "UPI"
+	} else if currency == "IDR_NATIVE" {
+		bankType = "QRIS"
+	}
 	return ZPayDepositReq{
-		Currency:                  "THB_FOREX",
-		PaymentID:                 "225151613693",
-		Amount:                    "188000.00",
-		BankType:                  "",
+		Currency:                  currency,
+		PaymentID:                 "2026_test_cvd_8",
+		Amount:                    "100.00",
+		BankType:                  bankType,
+		CustomerUserId:            "46277",
+		CustomerUsername:          "zs",
+		CustomerEmail:             "zs@example.com",
+		CustomerPhone:             "09123456789",
 		CustomerBankName:          "ABBANK",
-		CustomerBankHolderName:    "jane",
+		CustomerBankHolderName:    "zs",
 		CustomerBankAccountNumber: "1234567890",
 	}
 }

@@ -13,20 +13,28 @@ import (
 func (cli *Client) WithdrawReq(req ZPayWithdrawReq) (*ZPayWithdrawRsp, error) {
 
 	rawURL := cli.Params.WithdrawUrl
-	// 2. Convert struct to map for signing
-	var params map[string]string
+	// Convert struct to map for signing（跳过嵌套的 AdditionalParams，单独处理）
+	params := make(map[string]string)
 	mapstructure.Decode(req, &params)
 
-	// b, _ := json.Marshal(req)
-	// params["data"] = cast.ToString(b)
 	params["merchantCode"] = cast.ToString(cli.Params.MerchantCode)
 	params["merchantKey"] = cast.ToString(cli.Params.MerchantKey)
 	params["callbackUrl"] = cast.ToString(cli.Params.WithdrawResponseUrl)
 
+	// additionalParams：AUD / THB 币种时需要，序列化为 JSON 字符串后作为独立字段传递
+	// AUD: {"way_code":"BSB","bsb_code":"042056","pay_id":"-"}
+	//   or {"way_code":"PAYID","bsb_code":"-","pay_id":"test@payid"}
+	// THB: {"customer_user_id":"484799","customer_username":"user_123"}
+	if req.Currency == "THB_FOREX" && req.AdditionalParams != (AdditionalParamsObj{}) {
+		additionalJSON, err := jsoniter.ConfigCompatibleWithStandardLibrary.MarshalToString(req.AdditionalParams)
+		if err == nil && additionalJSON != "{}" {
+			params["additionalParams"] = additionalJSON
+		}
+	}
+
 	// Generate signature
 	signStr, _ := utils.SignWithdraw(params)
 	params["signature"] = signStr
-	// fmt.Println(params)
 
 	var result ZPayWithdrawRsp
 	resp2, err := cli.ryClient.SetTLSClientConfig(&tls.Config{InsecureSkipVerify: true}).

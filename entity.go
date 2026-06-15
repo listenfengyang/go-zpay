@@ -34,14 +34,16 @@ type ZPayDepositReq struct {
 	// 以下非必填
 	// ResponseURL string `json:"responseURL" mapstructure:"responseURL"` // 回调地址
 	// Signature   string `json:"signature" mapstructure:"signature"`     // 签名
+	CustomerEmail          string `json:"customerEmail" mapstructure:"customerEmail"`                   // 客户邮箱
+	CustomerPhone          string `json:"customerPhone" mapstructure:"customerPhone"`                   // 客户手机号
+	CustomerBankHolderName string `json:"customerBankHolderName" mapstructure:"customerBankHolderName"` // 客户银行账号名称，没有就填平台用户名
+
 	// 改版：以下三个参数在THB&VND模式下必填
 	CustomerBankName          string `json:"customerBankName" mapstructure:"customerBankName"`                   // 客户银行名称
-	CustomerBankHolderName    string `json:"customerBankHolderName" mapstructure:"customerBankHolderName"`       // 客户银行账号名称
 	CustomerBankAccountNumber string `json:"customerBankAccountNumber" mapstructure:"customerBankAccountNumber"` // 客户银行账号
-	// 以下参数只在THB_KYC模式加
-	// CustomerUsername          string `json:"customerUsername" mapstructure:"customerUsername"`                   // 客户用户名
-	// CustomerEmail             string `json:"customerEmail" mapstructure:"customerEmail"`                         // 客户邮箱
-	// CustomerPhone             string `json:"customerPhone" mapstructure:"customerPhone"`                         // 客户手机号
+	// v2.6版以下2个参数只在THB模式加
+	CustomerUserId   string `json:"customerUserId" mapstructure:"customerUserId"`     // 客户ID
+	CustomerUsername string `json:"customerUsername" mapstructure:"customerUsername"` // 客户用户名
 }
 
 type ZPayDepositRsp struct {
@@ -88,13 +90,30 @@ type ZPayWithdrawReq struct {
 	MerchantRefNo string `json:"merchantRefNo" mapstructure:"merchantRefNo"` //商户订单号
 	CallbackUrl   string `json:"callbackUrl" mapstructure:"callbackUrl"`     //回调地址
 	Signature     string `json:"signature" mapstructure:"signature"`         //签名
+	// v2.0.6新增，当THB币种时填写，Example:{"customer_user_id": "484799","customer_username":"user_123"}
+	AdditionalParams AdditionalParamsObj `json:"additionalParams" form:"additionalParams" mapstructure:"additionalParams"`
 }
 type ZPayWithdrawRsp struct {
 	Status  int    `json:"status" mapstructure:"status"` //200=成功，400=失败...
 	Message string `json:"message" mapstructure:"message"`
 }
 
-// 出金回调
+// AdditionalParamsObj 出金附加参数。
+// AUD 币种时填写 WayCode / BsbCode / PayId；
+// THB 币种时填写 CustomerUserId / CustomerUsername。
+type AdditionalParamsObj struct {
+	// AUD 专用：支付方式（PAYID / BSB）
+	WayCode string `json:"way_code,omitempty" mapstructure:"way_code"`
+	// AUD 专用：BSB 银行分行编码（BSB 方式时填写，PAYID 方式填 "-"）
+	BsbCode string `json:"bsb_code,omitempty" mapstructure:"bsb_code"`
+	// AUD 专用：PayID 标识（PAYID 方式时填写，BSB 方式填 "-"）
+	PayId string `json:"pay_id,omitempty" mapstructure:"pay_id"`
+	// THB 专用：客户 ID
+	CustomerUserId string `json:"customer_user_id,omitempty" mapstructure:"customer_user_id"`
+	// THB 专用：客户用户名
+	CustomerUsername string `json:"customer_username,omitempty" mapstructure:"customer_username"`
+}
+
 type ZPayWithdrawCallbackReq struct {
 	Status             string `json:"status" form:"status" mapstructure:"status"` //200=成功，400=失败...
 	Message            string `json:"message" form:"message" mapstructure:"message"`
