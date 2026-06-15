@@ -40,7 +40,7 @@ func (cli *Client) WithdrawReq(req ZPayWithdrawReq) (*ZPayWithdrawRsp, error) {
 	resp2, err := cli.ryClient.SetTLSClientConfig(&tls.Config{InsecureSkipVerify: true}).
 		SetCloseConnection(true).
 		R().
-		SetBody(params).
+		SetFormData(params).
 		SetHeaders(getHeaders()).
 		SetDebug(cli.debugMode).
 		SetResult(&result).

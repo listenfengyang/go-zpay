@@ -33,7 +33,7 @@ func TestDeposit(t *testing.T) {
 // VND
 // bankType=BANK_QR  （越南银行QR码）
 func GenDepositRequestDemo() ZPayDepositReq {
-	currency := "IDR_NATIVE"
+	currency := "MYR"
 
 	bankType := ""
 	if currency == "VND" {
@@ -47,8 +47,8 @@ func GenDepositRequestDemo() ZPayDepositReq {
 	}
 	return ZPayDepositReq{
 		Currency:                  currency,
-		PaymentID:                 "2026_test_cvd_8",
-		Amount:                    "100.00",
+		PaymentID:                 "2026_test_ed_9",
+		Amount:                    "1000.00",
 		BankType:                  bankType,
 		CustomerUserId:            "46277",
 		CustomerUsername:          "zs",

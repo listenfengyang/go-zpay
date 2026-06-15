@@ -27,7 +27,7 @@ func GenWithdrawRequestDemo() ZPayWithdrawReq {
 	// THB时additionalParams必填
 	return ZPayWithdrawReq{
 		Currency:      "MYR",
-		MerchantRefNo: "2026_myyr_wd_02",
+		MerchantRefNo: "2026_myyr_wd_03",
 		Amount:        "1000.00",
 		BankName:      "ABBANK",
 		IfscCode:      "IBK",
